@@ -2,6 +2,8 @@
 
 Self-contained web simulator for Conway's Game of Life, written with HTML, CSS, and JavaScript without external dependencies.
 
+![Conway's Game of Life simulator screenshot](assets/screenshot.svg)
+
 ## Suggested repository name
 
 `conway-game-of-life`
@@ -22,10 +24,14 @@ Open `index.html` in a browser. You can publish it directly with GitHub Pages be
 ## Publish with GitHub Pages
 
 1. Create a repository on GitHub.
-2. Upload `index.html`, `styles.css`, `app.js`, and this `README.md`.
+2. Upload `index.html`, `styles.css`, `app.js`, `LICENSE`, `assets/screenshot.svg`, and this `README.md`.
 3. In GitHub, open `Settings > Pages`.
 4. Choose the main branch and root folder.
 5. Save the configuration and wait for GitHub to provide the public URL.
+
+## License
+
+This project is distributed under the MIT License. See `LICENSE` for details.
 
 ## Included references
 
