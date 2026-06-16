@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Conway's Game of Life</title>
+    <meta
+      id="metaDescription"
+      name="description"
+      content="Interactive Conway's Game of Life simulator with rules, history, and research links."
+    >
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="topbar" aria-label="Main navigation" data-i18n-aria-label="navAria">
+        <a class="brand" href="#simulador" aria-label="Go to simulator" data-i18n-aria-label="brandAria">
+          <span class="brand-mark" aria-hidden="true"></span>
+          Conway Life
+        </a>
+        <div class="nav-links">
+          <a href="#reglas" data-i18n="navRules">Rules</a>
+          <a href="#historia" data-i18n="navHistory">History</a>
+          <a href="#estudios" data-i18n="navStudies">Studies</a>
+        </div>
+        <label class="language-control">
+          <span data-i18n="languageLabel">Language</span>
+          <select id="languageSelect" aria-label="Language" data-i18n-aria-label="languageLabel">
+            <option value="en">English</option>
+            <option value="es">Español</option>
+            <option value="pt">Português</option>
+          </select>
+        </label>
+      </nav>
+      <section class="hero" aria-labelledby="titulo">
+        <div class="hero-copy">
+          <p class="eyebrow" data-i18n="heroEyebrow">Cellular automaton · B3/S23</p>
+          <h1 id="titulo" data-i18n="heroTitle">Conway's Game of Life</h1>
+          <p data-i18n="heroCopy">
+            A universe of cells that are born, survive, or disappear by following
+            four simple rules. You define the initial seed; the system does the rest.
+          </p>
+          <a class="primary-link" href="#simulador" data-i18n="heroCta">Open simulator</a>
+        </div>
+        <div class="hero-visual" aria-hidden="true">
+          <canvas id="heroCanvas" width="560" height="360"></canvas>
+        </div>
+      </section>
+    </header>
+
+    <main>
+      <section class="simulator-band" id="simulador" aria-labelledby="simuladorTitulo">
+        <div class="section-heading">
+          <p class="eyebrow" data-i18n="simEyebrow">Explore emergent patterns</p>
+          <h2 id="simuladorTitulo" data-i18n="simTitle">Interactive simulator</h2>
+        </div>
+
+        <div class="simulator-layout">
+          <aside class="control-panel" aria-label="Simulator controls" data-i18n-aria-label="controlsAria">
+            <div class="panel-block">
+              <h3 data-i18n="controlsTitle">Controls</h3>
+              <div class="button-grid">
+                <button class="button primary" id="toggleRun" type="button">Start</button>
+                <button class="button" id="step" type="button" data-i18n="step">Step</button>
+                <button class="button" id="randomize" type="button" data-i18n="randomize">Random</button>
+                <button class="button danger" id="clear" type="button" data-i18n="clear">Clear</button>
+              </div>
+            </div>
+
+            <div class="panel-block">
+              <label class="field">
+                <span data-i18n="patternLabel">Initial pattern</span>
+                <select id="patternSelect">
+                  <option value="glider" data-i18n="patternGlider">Glider</option>
+                  <option value="blinker" data-i18n="patternBlinker">Blinker</option>
+                  <option value="pulsar">Pulsar</option>
+                  <option value="rPentomino" data-i18n="patternRPentomino">R-pentomino</option>
+                  <option value="acorn">Acorn</option>
+                  <option value="gosper" data-i18n="patternGosper">Gosper glider gun</option>
+                </select>
+              </label>
+              <button class="button full" id="loadPattern" type="button" data-i18n="loadPattern">Load pattern</button>
+            </div>
+
+            <div class="panel-block">
+              <label class="field">
+                <span data-i18n="speedLabel">Speed</span>
+                <input id="speed" type="range" min="2" max="30" value="10">
+              </label>
+              <label class="field">
+                <span data-i18n="densityLabel">Random density</span>
+                <input id="density" type="range" min="8" max="48" value="24">
+              </label>
+              <label class="field">
+                <span data-i18n="cellSizeLabel">Cell size</span>
+                <select id="cellSize">
+                  <option value="8" data-i18n="cellCompact">Compact</option>
+                  <option value="11" selected data-i18n="cellMedium">Medium</option>
+                  <option value="15" data-i18n="cellLarge">Large</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="stats-grid" aria-label="Statistics" data-i18n-aria-label="statsAria">
+              <div>
+                <span data-i18n="generation">Generation</span>
+                <strong id="generationCount">0</strong>
+              </div>
+              <div>
+                <span data-i18n="liveCells">Live cells</span>
+                <strong id="liveCount">0</strong>
+              </div>
+              <div>
+                <span data-i18n="densityStat">Density</span>
+                <strong id="densityCount">0%</strong>
+              </div>
+            </div>
+          </aside>
+
+          <div class="board-shell" aria-label="Game of Life board" data-i18n-aria-label="boardAria">
+            <canvas id="lifeCanvas"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-band" id="reglas" aria-labelledby="reglasTitulo">
+        <div class="two-column">
+          <div>
+            <p class="eyebrow" data-i18n="rulesEyebrow">Core idea</p>
+            <h2 id="reglasTitulo" data-i18n="rulesTitle">What is it about?</h2>
+            <p data-i18n="rulesCopy">
+              The Game of Life has no objective, score, or opponents. It is a
+              zero-player game: once the initial state is set, each generation is
+              calculated automatically from neighboring cells.
+            </p>
+          </div>
+          <ol class="rule-list">
+            <li data-i18n="ruleOne">A live cell with fewer than two live neighbors dies by isolation.</li>
+            <li data-i18n="ruleTwo">A live cell with two or three live neighbors survives.</li>
+            <li data-i18n="ruleThree">A live cell with more than three live neighbors dies by overcrowding.</li>
+            <li data-i18n="ruleFour">A dead cell with exactly three live neighbors becomes alive.</li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="content-band alternate" id="historia" aria-labelledby="historiaTitulo">
+        <div class="section-heading">
+          <p class="eyebrow" data-i18n="historyEyebrow">Historical context</p>
+          <h2 id="historiaTitulo" data-i18n="historyTitle">History of the Game of Life</h2>
+        </div>
+        <div class="timeline">
+          <article>
+            <span data-i18n="historyOneDate">1940s</span>
+            <h3 data-i18n="historyOneTitle">Von Neumann's question</h3>
+            <p data-i18n="historyOneCopy">
+              John von Neumann studied machines capable of self-replication. Conway
+              looked for a much simpler version of those ideas using local rules.
+            </p>
+          </article>
+          <article>
+            <span>1970</span>
+            <h3 data-i18n="historyTwoTitle">Conway and Gardner</h3>
+            <p data-i18n="historyTwoCopy">
+              John Horton Conway introduced Life, and Martin Gardner popularized it
+              in Scientific American, turning it into a classic of recreational mathematics.
+            </p>
+          </article>
+          <article>
+            <span data-i18n="historyThreeDate">1970 onward</span>
+            <h3 data-i18n="historyThreeTitle">Gliders, guns, and computation</h3>
+            <p data-i18n="historyThreeCopy">
+              Bill Gosper discovered the first glider gun, proving unbounded growth.
+              Later work showed that Life can implement universal computation.
+            </p>
+          </article>
+          <article>
+            <span data-i18n="historyFourDate">Today</span>
+            <h3 data-i18n="historyFourTitle">A living community</h3>
+            <p data-i18n="historyFourCopy">
+              Researchers and enthusiasts continue to find oscillators, spaceships,
+              giant patterns, and formal proofs about this minimal universe.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="content-band" id="estudios" aria-labelledby="estudiosTitulo">
+        <div class="section-heading">
+          <p class="eyebrow" data-i18n="studiesEyebrow">Keep studying</p>
+          <h2 id="estudiosTitulo" data-i18n="studiesTitle">Studies and useful links</h2>
+        </div>
+        <div class="resource-grid">
+          <a class="resource-card" href="https://conwaylife.com/wiki/Conway%27s_Game_of_Life" target="_blank" rel="noreferrer">
+            <span data-i18n="resourceReference">Reference</span>
+            <strong>LifeWiki: Conway's Game of Life</strong>
+            <p data-i18n="resourceLifeWiki">Rules, origin, patterns, algorithms, and community vocabulary.</p>
+          </a>
+          <a class="resource-card" href="https://www.scholarpedia.org/article/Game_of_Life" target="_blank" rel="noreferrer">
+            <span data-i18n="resourceArticle">Article</span>
+            <strong>Scholarpedia: Game of Life</strong>
+            <p data-i18n="resourceScholarpedia">Academic overview by Eugene Izhikevich, John Conway, and Anil Seth.</p>
+          </a>
+          <a class="resource-card" href="https://arxiv.org/abs/cs/0406009" target="_blank" rel="noreferrer">
+            <span data-i18n="resourceComputation">Computation</span>
+            <strong>Implementation of Logical Functions in the Game of Life</strong>
+            <p data-i18n="resourceLogic">Construction of AND, OR, and NOT logic gates through glider collisions.</p>
+          </a>
+          <a class="resource-card" href="https://arxiv.org/abs/2312.02799" target="_blank" rel="noreferrer">
+            <span data-i18n="resourceRecent">Recent research</span>
+            <strong>Conway's Game of Life is Omniperiodic</strong>
+            <p data-i18n="resourceOmniperiodic">Work on oscillators of every period and the history of the problem.</p>
+          </a>
+          <a class="resource-card" href="https://arxiv.org/abs/1407.1006" target="_blank" rel="noreferrer">
+            <span data-i18n="resourceComplexity">Complexity</span>
+            <strong>Near-critical metastable state</strong>
+            <p data-i18n="resourceCritical">Study of critical behavior and dynamics in cellular automata.</p>
+          </a>
+          <a class="resource-card" href="https://arxiv.org/abs/2504.00263" target="_blank" rel="noreferrer">
+            <span data-i18n="resourceFormal">Formal verification</span>
+            <strong>GOL in GOL in HOL</strong>
+            <p data-i18n="resourceHol">Verified implementation of Game of Life inside Game of Life.</p>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p data-i18n="footer">Made to explore how minimal rules create surprising behavior.</p>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>
