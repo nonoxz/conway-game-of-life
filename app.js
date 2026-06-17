@@ -93,7 +93,8 @@ const translations = {
     resourceCritical: "Study of critical behavior and dynamics in cellular automata.",
     resourceFormal: "Formal verification",
     resourceHol: "Verified implementation of Game of Life inside Game of Life.",
-    footer: "Made to explore how minimal rules create surprising behavior.",
+    footerPrefix: "Made by",
+    footerSuffix: "to explore how minimal rules create surprising behavior.",
     locale: "en-US",
   },
   es: {
@@ -169,7 +170,8 @@ const translations = {
     resourceCritical: "Estudio sobre comportamiento crítico y dinámica en autómatas celulares.",
     resourceFormal: "Verificación formal",
     resourceHol: "Implementación verificada de Game of Life dentro de Game of Life.",
-    footer: "Hecho para explorar cómo reglas mínimas producen comportamientos sorprendentes.",
+    footerPrefix: "Hecho por",
+    footerSuffix: "para explorar cómo reglas mínimas producen comportamientos sorprendentes.",
     locale: "es-CL",
   },
   pt: {
@@ -245,7 +247,8 @@ const translations = {
     resourceCritical: "Estudo sobre comportamento crítico e dinâmica em autômatos celulares.",
     resourceFormal: "Verificação formal",
     resourceHol: "Implementação verificada de Game of Life dentro de Game of Life.",
-    footer: "Feito para explorar como regras mínimas criam comportamentos surpreendentes.",
+    footerPrefix: "Feito por",
+    footerSuffix: "para explorar como regras mínimas criam comportamentos surpreendentes.",
     locale: "pt-BR",
   },
 };

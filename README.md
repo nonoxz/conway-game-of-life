@@ -10,6 +10,8 @@ Self-contained web simulator for Conway's Game of Life, written with HTML, CSS, 
 
 ## How to open it
 
+Play the published version here: https://nonoxz.github.io/conway-game-of-life/
+
 Open `index.html` in a browser. You can publish it directly with GitHub Pages because it does not require a server or build step.
 
 ## Features

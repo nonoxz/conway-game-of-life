@@ -503,6 +503,18 @@ input[type="range"] {
   margin-bottom: 0;
 }
 
+.site-footer a {
+  color: var(--gold);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.site-footer a:hover,
+.site-footer a:focus-visible {
+  color: var(--teal);
+  outline: none;
+}
+
 @media (max-width: 940px) {
   .hero,
   .simulator-layout,
